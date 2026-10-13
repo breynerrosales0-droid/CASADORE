@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Casa Dore · Dashboard</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#faf7f0;--card:#fff;--tx:#2a2418;--mu:#7a705c;--bd:#e8dfc8;--gold:#b8892b;--gl:#f5e9c8;--ok:#3f7d4e;--jue:#2f6f9f;--sab:#a6492f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17140d;--card:#221d12;--tx:#f1e9d4;--mu:#a89c80;--bd:#3a3220;--gold:#e0b14f;--gl:#3a2f14;--ok:#6fbf82;--jue:#6fb0e0;--sab:#e58a6c}}
+:root[data-theme="dark"]{--bg:#17140d;--card:#221d12;--tx:#f1e9d4;--mu:#a89c80;--bd:#3a3220;--gold:#e0b14f;--gl:#3a2f14;--ok:#6fbf82;--jue:#6fb0e0;--sab:#e58a6c}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Georgia,'Times New Roman',serif}
+.w{max-width:1000px;margin:0 auto;padding:16px}
+h1{margin:0;font-size:26px;color:var(--gold);letter-spacing:.5px}
+.sub{color:var(--mu);font-family:system-ui,sans-serif;font-size:13px;margin-top:2px}
+.tabs{display:flex;gap:8px;margin:16px 0;font-family:system-ui,sans-serif}
+.tabs button{flex:1;padding:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;font-weight:600;cursor:pointer}
+.tabs button.on{background:var(--gold);color:#fff;border-color:var(--gold)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:12px;font-family:system-ui,sans-serif}
+.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:12px;font-family:system-ui,sans-serif}
+.kp div{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px}
+.kp b{display:block;font-size:24px;color:var(--gold)}.kp span{font-size:12px;color:var(--mu)}
+.bar{height:8px;background:var(--gl);border-radius:6px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .3s}
+.day h3{margin:0 0 8px;font-size:16px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.tag{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--gl);color:var(--gold);font-weight:600}
+.tag.j{background:var(--jue);color:#fff}.tag.s{background:var(--sab);color:#fff}
+.t{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-top:1px dashed var(--bd);font-size:14px}
+.t input{margin-top:3px;accent-color:var(--gold)}
+.t.d span.x{text-decoration:line-through;color:var(--mu)}
+.m{font-size:11px;color:var(--mu);display:block}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-family:system-ui,sans-serif}
+.cal .h{text-align:center;font-size:12px;color:var(--mu);padding:4px 0;font-weight:600}
+.c{min-height:56px;border:1px solid var(--bd);border-radius:8px;padding:4px;font-size:12px;background:var(--card);cursor:default;position:relative}
+.c.on{cursor:pointer}.c.j{border-color:var(--jue);background:color-mix(in srgb,var(--jue) 12%,var(--card))}
+.c.s{border-color:var(--sab);background:color-mix(in srgb,var(--sab) 12%,var(--card))}
+.c.sel{outline:2px solid var(--gold)}.c.hoy b{color:var(--gold)}
+.c em{position:absolute;bottom:3px;right:5px;font-style:normal;font-size:10px;color:var(--mu)}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-family:system-ui,sans-serif}
+.nav button,.add button{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:8px;padding:6px 12px;cursor:pointer}
+.add{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.add input,.add select{padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);flex:1;min-width:110px;font-size:14px}
+.add button{background:var(--gold);color:#fff;border-color:var(--gold)}
+.lg{font-size:12px;color:var(--mu);margin:8px 0;font-family:system-ui,sans-serif}
+.del{margin-left:auto;border:0;background:none;color:var(--mu);cursor:pointer}
+.pill{font-size:10px;padding:1px 6px;border-radius:10px;border:1px solid var(--bd);color:var(--mu)}
+.hid{display:none}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.g2{grid-template-columns:1fr}.c{min-height:44px}}
+</style></head><body><div class="w">
+<h1>✦ Casa Dore</h1>
+<div class="sub" id="st">⚪ Modo local</div>
+<div class="sub">Dashboard semanal · oro 18k y oro laminado · videos virales: Sharik y Breyner</div>
+<div class="tabs"><button id="b1" class="on" onclick="tab(1)">Contenido semanal</button><button id="b2" onclick="tab(2)">Compras y pedidos</button></div>
+
+<div id="p1">
+ <div class="kp">
+  <div><b id="k1">0%</b><span>Avance de la semana</span><div class="bar" style="padding:0;border:0;margin-top:6px"><i id="pb"></i></div></div>
+  <div><b id="k2">0</b><span>Tareas hechas</span></div>
+  <div><b>2</b><span>Videos virales / semana</span></div>
+  <div><b>4</b><span>Canales: IG · FB · WA · Web</span></div>
+ </div>
+ <div class="card"><b>Reparto de videos virales</b>
+  <div class="g2" style="margin-top:8px">
+   <div>🎬 <b>Sharik</b> — video 1 (martes): producto estrella oro 18k</div>
+   <div>🎬 <b>Breyner</b> — video 2 (viernes): oro laminado / antes y después</div>
+  </div></div>
+ <div id="days"></div>
+ <button class="del" style="margin:0" onclick="resetW()">↺ Reiniciar semana</button>
+</div>
+
+<div id="p2" class="hid">
+ <div class="card">Gestión de <b>insumos</b> y <b>pedidos de clientes</b> solo los <span class="tag j">JUEVES</span> y <span class="tag s">SÁBADOS</span>. Toca un día marcado para agregar compras o pedidos.</div>
+ <div class="nav"><button onclick="mv(-1)">◀</button><b id="mt"></b><button onclick="mv(1)">▶</button></div>
+ <div class="cal" id="cal"></div>
+ <div class="lg">🟦 Jueves · 🟧 Sábado · el número abajo indica ítems del día</div>
+ <div class="card" id="det"><span class="sub">Selecciona un jueves o sábado.</span></div>
+ <div class="card"><b>Próximas gestiones</b><div id="nx" style="margin-top:6px;font-size:14px"></div></div>
+</div>
+</div>
+<script>
+var D=[
+["Lunes","Planeación",[["Definir productos y ofertas de la semana","Equipo","Interno"],["Guion del video 1 (Sharik) y video 2 (Breyner)","Sharik/Breyner","Interno"],["Programar publicaciones fijas","Equipo","IG·FB"]]],
+["Martes","Video viral 1",[["Grabar video viral 1 (producto estrella oro 18k)","Sharik","IG·FB"],["Fotos de producto con luz natural","Sharik","Web"]]],
+["Miércoles","Edición",[["Editar video 1 y crear miniatura","Sharik","IG·FB"],["Publicar video 1 + responder comentarios","Equipo","IG·FB"],["Compartir en estados de WhatsApp","Equipo","WA"]]],
+["Jueves","Gestión de compras y pedidos",[["Comprar insumos y confirmar pedidos con clientes","Equipo","Gestión"],["Historia: «pedidos abiertos» + cómo comprar","Equipo","IG·WA"],["Recordar anticipo en pedidos de oro 18k","Equipo","WA"]]],
+["Viernes","Video viral 2",[["Grabar video viral 2 (oro laminado, antes y después)","Breyner","IG·FB"],["Publicar video 2 y fijar enlace de compra","Breyner","IG·FB·Web"],["Contenido educativo: oro 18k vs laminado","Equipo","IG"]]],
+["Sábado","Gestión de compras y pedidos",[["Comprar insumos y cerrar pedidos pendientes","Equipo","Gestión"],["Publicar entrega o testimonio de cliente","Equipo","IG·FB"],["Coordinar envíos y entregas personales","Equipo","WA"]]],
+["Domingo","Métricas y descanso",[["Revisar métricas: alcance, mensajes, ventas","Equipo","Interno"],["Elegir lo mejor para repetir la próxima semana","Equipo","Interno"]]]];
+function ld(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var wk=ld('cd_w',{}),cd=ld('cd_c',{}),vm=new Date(2026,9,1),sel=null;
+function tab(n){for(var i=1;i<3;i++){document.getElementById('p'+i).classList.toggle('hid',i!=n);document.getElementById('b'+i).classList.toggle('on',i==n)}}
+function rw(){var h='',tot=0,dn=0;D.forEach(function(d,i){var g=d[0]=='Jueves'?' j':d[0]=='Sábado'?' s':'';
+h+='<div class="card day"><h3>'+d[0]+' <span class="tag'+g+'">'+d[1]+'</span></h3>';
+d[2].forEach(function(t,j){var k=i+'-'+j,c=wk[k];tot++;if(c)dn++;
+h+='<label class="t'+(c?' d':'')+'"><input type="checkbox" '+(c?'checked':'')+' onchange="tg(\''+k+'\')"><div><span class="x">'+t[0]+'</span><span class="m">'+t[1]+' · '+t[2]+'</span></div></label>'});
+h+='</div>'});document.getElementById('days').innerHTML=h;
+var p=Math.round(dn*100/tot);k1.textContent=p+'%';k2.textContent=dn+'/'+tot;pb.style.width=p+'%'}
+function tg(k){wk[k]=!wk[k];svW();rw()}
+function resetW(){wk={};svW();rw()}
+var M=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+function key(y,m,d){return y+'-'+(m+1)+'-'+d}
+function rc(){var y=vm.getFullYear(),m=vm.getMonth();mt.textContent=M[m]+' '+y;
+var h=['L','M','M','J','V','S','D'].map(function(x){return'<div class="h">'+x+'</div>'}).join('');
+var f=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate();
+for(var i=0;i<f;i++)h+='<div></div>';
+var hy=new Date();
+for(var d=1;d<=n;d++){var w=new Date(y,m,d).getDay(),k=key(y,m,d),c=(cd[k]||[]).length;
+var cl='c'+(w==4?' j on':w==6?' s on':'')+(sel==k?' sel':'')+(hy.getFullYear()==y&&hy.getMonth()==m&&hy.getDate()==d?' hoy':'');
+h+='<div class="'+cl+'"'+((w==4||w==6)?' onclick="pk(\''+k+'\','+y+','+m+','+d+')"':'')+'><b>'+d+'</b>'+(c?'<em>'+c+'</em>':'')+'</div>'}
+cal.innerHTML=h;nxt()}
+function mv(x){vm=new Date(vm.getFullYear(),vm.getMonth()+x,1);rc()}
+function pk(k,y,m,d){sel=k;rc();rd(k,y,m,d)}
+function rd(k,y,m,d){var w=new Date(y,m,d).getDay(),nm=w==4?'Jueves':'Sábado',L=cd[k]||[];
+var h='<b>'+nm+' '+d+' de '+M[m]+'</b><div style="margin-top:6px">';
+if(!L.length)h+='<span class="sub">Sin ítems todavía.</span>';
+L.forEach(function(t,i){h+='<label class="t'+(t.o?' d':'')+'"><input type="checkbox" '+(t.o?'checked':'')+' onchange="ck(\''+k+'\','+i+','+y+','+m+','+d+')"><div><span class="x">'+t.t+'</span><span class="m"><span class="pill">'+t.k+'</span></span></div><button class="del" onclick="event.preventDefault();rm(\''+k+'\','+i+','+y+','+m+','+d+')">✕</button></label>'});
+h+='</div><div class="add"><select id="ak"><option>Insumo</option><option>Pedido oro 18k</option><option>Pedido oro laminado</option></select><input id="at" placeholder="Ej: cadena, cliente Ana – anillo" onkeydown="if(event.key==\'Enter\')ad(\''+k+'\','+y+','+m+','+d+')"><button onclick="ad(\''+k+'\','+y+','+m+','+d+')">Agregar</button></div>';
+det.innerHTML=h}
+function ad(k,y,m,d){var v=at.value.trim();if(!v)return;(cd[k]=cd[k]||[]).push({t:v,k:ak.value,o:false});svD(k);rc();rd(k,y,m,d)}
+function ck(k,i,y,m,d){cd[k][i].o=!cd[k][i].o;svD(k);rd(k,y,m,d)}
+function rm(k,i,y,m,d){cd[k].splice(i,1);svD(k);rc();rd(k,y,m,d)}
+function nxt(){var t=new Date();t.setHours(0,0,0,0);var h='',c=0;
+for(var i=0;i<30&&c<4;i++){var x=new Date(t);x.setDate(t.getDate()+i);var w=x.getDay();
+if(w==4||w==6){c++;var L=cd[key(x.getFullYear(),x.getMonth(),x.getDate())]||[];
+h+='<div class="t"><span class="tag '+(w==4?'j':'s')+'">'+(w==4?'Jue':'Sáb')+' '+x.getDate()+' '+M[x.getMonth()].slice(0,3)+'</span><span>'+(L.length?L.length+' ítem(s) · '+L.filter(function(z){return!z.o}).length+' pendientes':'Sin ítems')+'</span></div>'}}
+nx.innerHTML=h}
+var db=null;
+function svW(){sv('cd_w',wk);if(db)db.doc('semana/estado').set({checks:wk}).catch(function(){})}
+function svD(k){sv('cd_c',cd);if(db)db.doc('dias/'+k).set({items:cd[k]||[]}).catch(function(){})}
+rw();rc();
+(async function(){try{
+ var c=window.claude;if(!c||!c.use)return;
+ db=await c.use('db');if(!db)return;
+ st.textContent='🟢 Compartido en vivo';
+ db.doc('semana/estado').onSnapshot(function(s){wk=(s.exists&&s.data().checks)||{};rw()},function(){});
+ db.collection('dias').onSnapshot(function(q){var n={};q.docs.forEach(function(d){n[d.id]=d.data().items||[]});cd=n;rc();
+  if(sel){var a=sel.split('-');rd(sel,+a[0],+a[1]-1,+a[2])}},function(){});
+}catch(e){}})();
+</script></body></html>
